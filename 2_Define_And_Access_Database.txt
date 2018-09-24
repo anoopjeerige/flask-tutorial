@@ -1,0 +1,67 @@
+Define and Access Database
+--------------------------
+
+The flask application will use SQLite database to store user and posts. 
+SQLite is an in-process library that implements a self-contained, serverless, 
+zero-configuration, transactional SQL database engine that is built into python.
+
+- Connect to the database
+- Create the tables
+- Register with the application
+- Initialize the database file
+
+A) Connect to the database
+- First step is to create a connection to the SQLite database. Any queries and
+  operations are performed using the connection, and closed afterwards.
+  In a web application the connection is typically tied to the request, where
+  is is created at somepoint when handling a request, and closed before 
+  the response is sent.
+
+- Create the db methods in flaskr/db.py
+
+- get_db() :  Method which create a new connection or reuses an
+  existing connection. 
+  g: A special object which stores the data that 
+  might be access mutiple times during a request.
+  current_app: A special object which points to the flash application 
+  that is handling the request.
+  sqlite3.connect(): Establishes the connection to the database file pointed at
+  by the DATABASE configuration key.
+  sqlite3.Row: Tells the connection to return rows that behave as dicts, thus 
+  allowing access by column name
+
+- close_db(): Method checks if connection was created by checking if g.db was set.
+  If connection exists, it is closed.
+
+- The close_db() needs to be registered with the application.
+
+B) Create the tables
+- In SQLite data is stored in tables and columns.
+  These need to be created before one can store or retrieve data.
+
+- Create the required table schemas in flaskr/schema.sql file.
+
+- Add the python functions that will run these queries to /flaskr/db.py file
+
+- init_db(): Method gets the database connection using get_db() method, 
+  opens the schema.sql and executes the queries.
+
+- click.command() defines a command line command that calls the init_db() method,
+  and shows success to the user.
+
+- open_resource(): Method used in the init_db() function to open the schema.sql
+
+C) Register with the application
+- The init_db and close_db functions need to be registed with the application
+  instance, use a function that takes an application and does the registration.
+
+- app.teardown_appcontext(): Tells Flask to call that function when cleaning up
+  after returning the response.
+
+- app.cli.add_command(): Add a new command that can be called using Flask command.
+
+- Import and call this registration function from the factory, /flaskr/__init__.py.
+
+D) Initialize the database file
+- With the init_db command registered, it is invoked with flask command.
+

@@ -1,0 +1,53 @@
+Blueprints and Views
+--------------------
+- A view function is the code written to respond to requests for the application.
+- Flask uses patterns to match the incoming request URL to the view that should handle it.
+- The view returns data that Flask turns into an outgoing response.
+- Flask can also generate a URL to a view based on its name and arguments, if required.
+
+A) Create a Blueprint
+- A Blueprint is a way to orgranize a group of related views and other code.
+- Views and other code are registered with a blueprint, then the blueprint is registered
+  with the application when it is available in the factory function.
+- The code for each blueprint will go into a separate module in the /flaskr folder.
+  /flaskr/sample_bp1.py
+  Creation : bp = Blueprint('<name>', __name__, url_prefix='<prefix_name>')
+  __name__ : Helps the blueprint know where it is defined.
+- Import and register the blueprint in the factory function.
+  /flaskr/__init__.py
+- The blueprint will have associated view and other code.
+
+B) View
+- @sample_bp1.route('/<url>', methods=('GET', 'POST')) : Associates mentioned <url> with the 
+   defined view function.
+- The request.method can be get or post, if its a post request, then request.form contains a
+  special dict mapping of user submitted data as key and value pairs.
+- Perform the require processing in the code, and store the result messages using flash().
+- Based on result :
+  - redirect using redirect(url_for(blueprint.view)), where
+    url_for() generates url for a view based on its name.
+    The name associated with a view function is also called the endpoint.
+    When using a blueprint, the name of the blueprint is prepended to the name of the function.
+    redirect() generated a direct response to the generated url.
+
+  - render_template(blueprint/view.html) renders a HTML template.
+    These html templates need to be defined, else TemplateNotFoundError will be shown.
+
+Side Note
+---------
+non-keyworded variable length argument - args*
+
+keyworded variable length argument - kwargs**
+
+Decorator
+- A Decorator is a function that takes another function and extends the behaviour of the 
+  latter function without explicitly modifying it.
+
+- Example, For a tweet application, user has to logged in to create, edit or delete own tweet.
+  Have a login check for every route is cumbersome and violates DRY principle.
+  Therefore one can decorate the required routes with @login_required
+
+
+
+
+

@@ -1,0 +1,81 @@
+Application Setup
+-----------------
+
+A) Flask Introduction
+- Flask is a microframework(minimialistic web application framework) based on 
+  Werkzeug (WSGI for Python) and Jinja2 (Template Engine)
+- A Flask application is a instance of the Flask class.
+- Everything about the application, such as URLs, configuration will be registered with this class.
+
+B) A Flask Project Structure
+- flaskr/, a Python package containing the application files.
+- tests/, a directory containing test modules.
+- venv/, a Python virtual environment where Flask and other dependencies are installed.
+- Installation files telling python how to install the project.
+- Version control config, such as git.
+- Any other project files.
+
+C) Creating a Flask application
+- A Flask application can be created as a global Flask instance sitting at the top of the code
+- A Flask application can be created inside a function, called the application factory function.
+  Any configuration, registration, and other setup the application needs will happen 
+  inside the function, then the application will be returned.
+
+- 1) The Application Factory
+  - The __inti__.py file inside the flaskr, contains the application factory, 
+    and tells python to treat flaskr directory as a package.
+  - create_app is the application factory function.
+
+- 2) The mains steps in a application factory function:
+  - 2.1 Creating the flask instance
+    app = Flask(__name__, instance_relative_config=True)
+    
+    - __name__ is the name of the current Python module, the app needs to know where it's located 
+    to set some paths, __name__ is a convenient way to tell it that.
+    
+    - instance_relative_config=True tells the app that configuration files are relative to the
+    instance folder (The instance folder is located outside the flaskr folder and 
+    can hold local data that shouldn't be commited to version control such as 
+    configuration secrets and database file.)
+
+  - 2.2 Setting default configurations that the app will use
+    app.config.from_mapping()
+
+    - SECRET_KEY is used by flask and extensions to keep data safe. Can be set to 'dev' 
+    during development and overridden with a random value when deploying.
+
+    - DATABASE is the path where the SQLite database file will be saved.
+    It's under the app.instance_path, which is the path Flask has chosen for the instance folder.
+
+  - 2.3 Overridding default configuration with values taken from the config.py file
+    app.config.from_pyfile()
+
+    - config.py file if it exists, is present in the instance folder.
+    - test_config if passed to the factory will be used instead of the instance configuration.
+
+  - 2.4 Ensure the instance folder exists
+    os.makedirs()
+
+    - Ensure the app.instance_path exists.
+    - Flask does not create the instance folder automatically.
+    - This folder is needed as the project will create the SQLite database file there. 
+
+D) Running the Flask application
+- set FLASK_APP=flaskr
+- set FLASK_ENV=development
+- flask run
+
+E) Installation
+- Good to have a virtual env for managing the dependencies of the project both in development
+  and production
+- Create the project folder
+  mkdir myproject
+  cd myproject
+  python -m venv venv
+
+- Activate the virtual env
+  venv\Scripts\activate
+
+- Install Flask within the activated enviromnent
+  pip install Flask
+

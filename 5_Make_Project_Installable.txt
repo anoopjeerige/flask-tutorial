@@ -1,0 +1,22 @@
+Make Project Installable
+------------------------
+- To create a distributable file and install in another environment
+- One can import the application irrespective of the location you run it from.
+- Can manage project's dependencies just like other packages.
+- Test tools can isolate your test environment from development environment
+
+Important Note
+--------------
+The making a project installable and below steps should be done in the beginning.
+
+A) Describe the project
+- The setup.py file describes the project and the files that belong to it.
+- packages=find_packages(), where packages tells python what package directories
+  and their python files to include.
+  find_packages() finds these directories automatically
+- include_package_data=True is set to include other files like static and template directories
+- MANIFEST.in tell python about the other files
+
+B) Install the project
+- pip install -e .
+  This tells pip to find setup.py in the current directory and install it in a development mode

@@ -1,0 +1,31 @@
+Templates
+---------
+- Views invoke the required template using the render_template(<template_name>).
+- Templates are files that contain the static data and placeholders for dynamic data.
+- A template is rendered with specific data to produce the final document.
+- Flask uses the Jinja library to render templates
+
+A) Syntax
+- Jinja looks and behaves like python.
+- Special demlimiters are used to distinguish Jinja syntax from static data in the template.
+- Anything between {{ and }} will be output to the final document.
+- {% and %} denote a control flow statments like if and for.
+
+B) Layout
+- Usually each page in an application will have the same basic layout around a different body.
+- So each template will extend a base template and override specific sections.
+- {% block content %}{% endblock %} represent a content block that will be overriden.
+- g the special object, url_for() method, are automatically available in the templates.
+- get_flashed_messages() returns the messages that is set by flash()
+
+C) Static Files
+- Flask automatically adds a static view that takes a relative path to the flaskr/static folder.
+- All static files (css, javascript, images) are referenced as url_for('static', filename='..').
+
+
+Side Note
+---------
+- abort(<HTTP CODE>, <Message>) : Raises a special exception that returns an HTTP status code,
+                                  and an optional message to show with the error, or
+                                  default message.
+
